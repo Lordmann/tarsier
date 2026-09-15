@@ -1,0 +1,16 @@
+﻿<Window x:Class="Tarsier.App.Views.InstallWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Tarsier"
+        Width="360"
+        SizeToContent="Height"
+        FontSize="12"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Foreground="{StaticResource TextBrush}"
+        Background="{StaticResource WindowBrush}">
+    <StackPanel Margin="14">
+        <TextBlock Text="Installing the latest version…" />
+        <ProgressBar x:Name="Progress" Margin="0,10,0,0" Maximum="100" />
+    </StackPanel>
+</Window>

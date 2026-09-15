@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Version from tag
+        id: version
+        shell: bash
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - run: dotnet test tests/Tarsier.Core.Tests
+
+      - run: dotnet publish src/Tarsier.App/Tarsier.App.csproj -c Release -r win-x64 --self-contained true -p:Version=${{ steps.version.outputs.version }} -o publish
+
+      - run: dotnet tool install -g vpk
+
+      # Earlier releases let vpk emit a delta package; the first release has nothing to diff against.
+      - run: vpk download github --repoUrl https://github.com/${{ github.repository }} --token ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - run: vpk pack -u Tarsier -v ${{ steps.version.outputs.version }} -p publish -e Tarsier.exe -i src/Tarsier.App/Assets/app.ico
+
+      - run: vpk upload github --repoUrl https://github.com/${{ github.repository }} --token ${{ secrets.GITHUB_TOKEN }} --publish --releaseName "Tarsier ${{ steps.version.outputs.version }}" --tag ${{ github.ref_name }}
