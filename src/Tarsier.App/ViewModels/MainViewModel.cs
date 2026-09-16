@@ -20,6 +20,7 @@ public sealed class MainViewModel : ObservableObject
 
     private ProfileEditorViewModel? _selectedProfile;
     private bool _isPreviewEnabled;
+    private bool _fullRangeAwaitsSignOut;
 
     public MainViewModel(
         ProfileRepository repository,
@@ -132,6 +133,10 @@ public sealed class MainViewModel : ObservableObject
 
     public bool IsFullRangeMissing => !_gammaRange.IsFullRangeEnabled;
 
+    public string FullRangeStatus => IsFullRangeMissing
+        ? "Limited by Windows"
+        : _fullRangeAwaitsSignOut ? "Enabled, sign out and back in to apply" : "Enabled";
+
     public static string Version => "v" + typeof(MainViewModel).Assembly.GetName().Version!.ToString(3);
 
     /// <summary>Vibrance needs an NVIDIA display, so the slider is hidden rather than left there doing nothing.</summary>
@@ -232,8 +237,9 @@ public sealed class MainViewModel : ObservableObject
 
     private void EnableFullRange()
     {
-        _gammaRange.RequestElevatedEnable();
+        _fullRangeAwaitsSignOut = _gammaRange.RequestElevatedEnable();
         OnPropertyChanged(nameof(IsFullRangeMissing));
+        OnPropertyChanged(nameof(FullRangeStatus));
     }
 
     private void OnProfileEdited(object? sender, EventArgs e) => RefreshPreview();

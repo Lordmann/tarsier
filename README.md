@@ -64,8 +64,8 @@ or drive. They are stored in `%APPDATA%\Tarsier\profiles.json`.
 
 **Preview on this monitor** applies the sliders live to the monitor the Tarsier window is on, so a profile
 can be tuned without switching to the game. **Pause all profiles** (window or tray menu) suspends everything
-without touching the saved values. **Start with Windows** registers Tarsier to start hidden in the tray at
-sign-in.
+without touching the saved values. **Start with Windows**, under **Settings** at the bottom of the window,
+registers Tarsier to start hidden in the tray at sign-in.
 
 #### Sliders
 
@@ -82,11 +82,12 @@ the profile stops applying. Monitors on Intel or AMD adapters keep working for t
 
 #### Full slider range
 
-Windows clamps gamma ramps to a narrow band around the identity curve unless
-`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ICM\GdiIcmGammaRange` is set to `256`. Without it the
-sliders barely move the picture. Tarsier detects this and shows an **Enable full range** button that writes
-the value for you; it needs an administrator prompt and a sign-out to take effect. This is the same change
-every gamma tool for Windows relies on, and it is harmless to leave in place.
+Windows only accepts gamma ramps within a band around the identity curve, so past a moderate setting the
+sliders stop having any further effect. The default band covers most needs. If you want the whole range,
+**Settings** shows whether it is available and offers **Enable full range**, which sets
+`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ICM\GdiIcmGammaRange` to `256` for you. That one value
+needs an administrator prompt and a sign-out to take effect; it is the same change every gamma tool for
+Windows relies on, and it is harmless to leave in place.
 
 ### Hotkeys
 
