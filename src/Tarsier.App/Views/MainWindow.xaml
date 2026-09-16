@@ -49,9 +49,13 @@
             <DockPanel>
                 <ToggleButton x:Name="SettingsToggle"
                               DockPanel.Dock="Right"
-                              Content="Settings"
-                              Padding="12,5" />
+                              Content="&#xE713;"
+                              FontFamily="Segoe MDL2 Assets"
+                              FontSize="14"
+                              Padding="8,5"
+                              ToolTip="Settings" />
                 <CheckBox Content="Pause all profiles"
+                          HorizontalAlignment="Left"
                           VerticalAlignment="Center"
                           IsChecked="{Binding IsPaused}" />
             </DockPanel>
@@ -65,6 +69,7 @@
                 Visibility="{Binding IsChecked, ElementName=SettingsToggle, Converter={StaticResource BoolToVisibility}}">
             <StackPanel>
                 <CheckBox Content="Start with Windows"
+                          HorizontalAlignment="Left"
                           IsChecked="{Binding StartsWithWindows}"
                           Margin="0,0,0,14" />
 
@@ -81,6 +86,7 @@
                 </DockPanel>
                 <TextBlock Style="{StaticResource Caption}"
                            TextWrapping="Wrap"
+                           Visibility="{Binding IsFullRangeMissing, Converter={StaticResource BoolToVisibility}}"
                            Text="Windows limits how far the gamma ramp may move; past a moderate setting the sliders stop having any effect. The default range covers most needs. Enabling the full range writes one system setting, needs administrator approval, and takes effect after you sign out and back in." />
 
                 <TextBlock Style="{StaticResource Caption}"
@@ -145,7 +151,7 @@
                                          Text="{Binding DisplayName, UpdateSourceTrigger=PropertyChanged}" />
                             </Grid>
 
-                            <CheckBox Content="Profile enabled" IsChecked="{Binding Enabled}" Margin="90,0,0,18" />
+                            <CheckBox Content="Profile enabled" HorizontalAlignment="Left" IsChecked="{Binding Enabled}" Margin="90,0,0,18" />
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
