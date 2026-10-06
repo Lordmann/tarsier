@@ -49,7 +49,7 @@ public sealed class WindowPlacementMemory
 
     public void Remember(Window window)
     {
-        if (window.WindowState != WindowState.Normal)
+        if (!window.IsLoaded || window.WindowState != WindowState.Normal)
         {
             return;
         }
